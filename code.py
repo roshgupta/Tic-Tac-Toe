@@ -1,74 +1,85 @@
 import random
 
-def initialise():
-  board = []
-  for i in range(0,3):
-    board.append(["-","-","-"])
-  return board
+class TicTacToe:
+  def initialise(self):
+    self.game_board = []
+    for i in range(0,3):
+      self.game_board.append(["-","-","-"])
 
-def print_board(board):
-  for i in range(0,3):
-    for j in range(0,3):
-      print(board[i][j], end=" ")
+
+  def print_board(self):
+    for i in range(0,3):
+      for j in range(0,3):
+        print(self.game_board[i][j], end=" ")
+      print("\n")
     print("\n")
-  print("\n")
 
-def check_board_full(board):
-  for i in range(0,3):
-    for j in range(0,3):
-      if board[i][j] == "-":
-        return False
-  return True
-
-def check_win(board, player):
-  for i in range(0,3):
-    if board[i][0] == player and board[i][1] == player and board[i][2] == player:
-      return True
-  for i in range(0,3):
-    if board[0][i] == player and board[1][i] == player and board[2][i] == player:
-      return True
-  if board[0][0] == player and board[1][1] == player and board[2][2] == player:
+  def check_board_full(self):
+    for i in range(0,3):
+      for j in range(0,3):
+        if self.game_board[i][j] == "-":
+          return False
     return True
-  if board[0][2] == player and board[1][1] == player and board[2][0] == player:
-    return True
-  return False
 
-def check_win_ai(board, player):
-  for i in range(0,3):
-    if board[i][0] == player and board[i][1] == player and board[i][2] == player:
+  def check_win( self):
+    for i in range(0,3):
+      if self.game_board[i][0] == self.player_current and self.game_board[i][1] == self.player_current and self.game_board[i][2] == self.player_current:
+        return True
+    for i in range(0,3):
+      if self.game_board[0][i] == self.player_current and self.game_board[1][i] == self.player_current and self.game_board[2][i] ==self.player_current:
+        return True
+    if self.game_board[0][0] == self.player_current and self.game_board[1][1] == self.player_current and self.game_board[2][2] == self.player_current:
       return True
-  for i in range(0,3):
-    if board[0][i] == player and board[1][i] == player and board[2][i] == player:
+    if self.game_board[0][2] == self.player_current and self.game_board[1][1] == self.player_current and self.game_board[2][0] == self.player_current:
       return True
-  if board[0][0] == player and board[1][1] == player and board[2][2] == player:
+    return False
 
-def get_random():
-  return random.randint(0, 1)
 
-def swap_player():
-  if player_current == player_1:
-    player_current=player_2
-  else:
-    player_current=player_1
+  def get_random(self):
+    return random.randint(0, 1)
 
-def turn():
-  if player_current == player_1 :
-    print("Player 1's turn : ")
-  else :
-    print("Player 2's turn : ")
-def start_game():
-  game_board = initialise()
-  not_win = True
-  if get_random==0:
-    player_1 = "X"
-    player_2 = "O"
-  else:
-    player_1= "O"
-    player_2= "X"
-  print("Let's start the game !")
-  print("Player 1 has '{player_1}' and Player 2 has '{player_2}' ")
-  player_current = player_1
-  while not_win:
-    print(game_board)
-    print()
+  def swap_player(self):
+    if self.player_current == self.player_1:
+      self.player_current=self.player_2
+    else:
+      self.player_current=self.player_1
 
+  def turn(self):
+    if self.player_current == self.player_1 :
+      print("Player 1's turn : ")
+    else :
+      print("Player 2's turn : ")
+
+  def start_game(self):
+    self.initialise()
+    self.not_win = True
+    random = self.get_random()
+    if random == 0:
+      self.player_1 = "X"
+      self.player_2 = "O"
+    else:
+      self.player_1= "O"
+      self.player_2= "X"
+    print("Let's start the game !")
+    print("Player 1 has '"+ self.player_1 + "' and Player 2 has '" + self.player_2 +"' ")
+    self.player_current = self.player_1
+    while self.not_win:
+      self.print_board()
+      self.turn()
+      row = int(input("Enter the row number : ")) - 1
+      col = int(input("Enter the column number : ")) - 1
+      self.game_board[row][col] = self.player_current
+      if self.check_win():
+        if self.player_current == self.player_1 :
+          print("Player 1 is winner ")
+        else :
+          print("Player 1 is winner ")
+        break
+      elif self.check_board_full():
+        print("DRAW !!")
+        break
+      self.swap_player()
+
+
+Tic_Tac = TicTacToe()
+Tic_Tac.start_game()
