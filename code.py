@@ -50,6 +50,15 @@ class TicTacToe:
     else :
       print("Player 2's turn : ")
 
+  def check_if_valid(self,row,col):
+    if row >= 0 and row < 3 and col >= 0 and col < 3:
+      if self.game_board[row][col] == "-":
+        return True
+      else:
+        return False
+    else:
+      return False
+
   def start_game(self):
     self.initialise()
     self.not_win = True
@@ -68,17 +77,23 @@ class TicTacToe:
       self.turn()
       row = int(input("Enter the row number : ")) - 1
       col = int(input("Enter the column number : ")) - 1
-      self.game_board[row][col] = self.player_current
-      if self.check_win():
-        if self.player_current == self.player_1 :
-          print("Player 1 is winner ")
-        else :
-          print("Player 1 is winner ")
-        break
-      elif self.check_board_full():
-        print("DRAW !!")
-        break
-      self.swap_player()
+      if self.check_if_valid(row,col):
+        self.game_board[row][col] = self.player_current
+        if self.check_win():
+          if self.player_current == self.player_1 :
+            print("Player 1 is winner ")
+          else :
+            print("Player 1 is winner ")
+          break
+          self.print_board()
+        elif self.check_board_full():
+          print("DRAW !!")
+          break
+          self.print_board()
+        self.swap_player()
+      else:
+        print("Enter Valid input")
+
 
 
 Tic_Tac = TicTacToe()
